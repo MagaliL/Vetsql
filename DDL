@@ -2,70 +2,70 @@
 
 -- Tabla Usuario
 CREATE TABLE Usuario (
-    Usuario_ID NUMBER PRIMARY KEY,
-    Nombre_Usuario VARCHAR2(50) NOT NULL,
-    Contraseña VARCHAR2(50) NOT NULL,
-    Email VARCHAR2(100) NOT NULL,
-    Rol VARCHAR2(50) NOT NULL
+    Usuario_ID INT PRIMARY KEY,
+    Nombre_Usuario VARCHAR(50) NOT NULL,
+    Contraseña VARCHAR(50) NOT NULL,
+    Email VARCHAR(50) NOT NULL,
+    Rol ENUM('cliente', 'veterinario', 'administrador') NOT NULL
 );
 
 -- Tabla Administrador
 CREATE TABLE Administrador (
-    ID_Administrador NUMBER PRIMARY KEY,
-    Usuario_ID NUMBER NOT NULL,
-    N_Pila VARCHAR2(50),
-    Apellido VARCHAR2(50),
-    Telefono VARCHAR2(20),
-    Email VARCHAR2(100),
+    ID_Administrador INT PRIMARY KEY,
+    Usuario_ID INT NOT NULL,
+    N_Pila VARCHAR(50),
+    Apellido VARCHAR(50),
+    Telefono VARCHAR(20),
+    Email VARCHAR(50),
     FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
 );
 
 -- Tabla Veterinario
 CREATE TABLE Veterinario (
-    ID_Veterinario NUMBER PRIMARY KEY,
-    Usuario_ID NUMBER NOT NULL,
-    N_Pila VARCHAR2(50),
-    Apellido VARCHAR2(50),
-    Especialidad VARCHAR2(100),
-    Horario VARCHAR2(100),
-    Telefono VARCHAR2(20),
-    Email VARCHAR2(100),
+    ID_Veterinario INT PRIMARY KEY,
+    Usuario_ID INT NOT NULL,
+    N_Pila VARCHAR(50),
+    Apellido VARCHAR(50),
+    Especialidad VARCHAR(50),
+    Horario DATETIME, 
+    Telefono VARCHAR(20),
+    Email VARCHAR2(50),
     FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
 );
 
 -- Tabla Dueño
 CREATE TABLE Dueño (
-    ID_Dueño NUMBER PRIMARY KEY,
-    Usuario_ID NUMBER NOT NULL,
-    N_Pila VARCHAR2(50),
-    Apellido VARCHAR2(50),
-    Telefono VARCHAR2(20),
-    Email VARCHAR2(100),
-    Direccion VARCHAR2(100),
+    ID_Dueño INT PRIMARY KEY,
+    Usuario_ID INT NOT NULL,
+    N_Pila VARCHAR(50),
+    Apellido VARCHAR(50),
+    Telefono VARCHAR(20),
+    Email VARCHAR(50),
+    Direccion VARCHAR(250),
     FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
 );
 
 -- Tabla Paciente
 CREATE TABLE Paciente (
-    ID_Paciente NUMBER PRIMARY KEY,
-    ID_Dueño NUMBER NOT NULL,
-    Nombre VARCHAR2(50),
-    Especie VARCHAR2(50),
-    Raza VARCHAR2(50),
-    Edad NUMBER,
-    Sexo CHAR(1),
+    ID_Paciente INT PRIMARY KEY,
+    ID_Dueño INT NOT NULL,
+    Nombre VARCHAR(50),
+    Especie VARCHAR(50),
+    Raza VARCHAR(20),
+    Edad VARCHAR (20),
+    Sexo VARCHAR(10),
     Peso NUMBER,
-    Diagnostico VARCHAR2(200),
+    Diagnostico VARCHAR(200),
     FOREIGN KEY (ID_Dueño) REFERENCES Dueño(ID_Dueño)
 );
 
 -- Tabla Cita
 CREATE TABLE Cita (
-    ID_Cita NUMBER PRIMARY KEY,
-    ID_Veterinario NUMBER NOT NULL,
-    ID_Paciente NUMBER NOT NULL,
-    ID_Dueño NUMBER NOT NULL,
-    Seguimiento VARCHAR2(200),
+    ID_Cita INT PRIMARY KEY,
+    ID_Veterinario INT NOT NULL,
+    ID_Paciente INT NOT NULL,
+    ID_Dueño INT NOT NULL,
+    Seguimiento VARCHAR(200),
     Costo NUMBER,
     Fecha DATE,
     Diagnostico VARCHAR2(200),
