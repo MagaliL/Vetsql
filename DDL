@@ -2,10 +2,10 @@
 
 -- Tabla Usuario
 CREATE TABLE Usuario (
-    Usuario_ID INT PRIMARY KEY,
+    Usuario_ID INT PRIMARY KEY AUTO_INCREMENT,
     Nombre_Usuario VARCHAR(50) NOT NULL,
-    Contraseña VARCHAR(50) NOT NULL,
-    Email VARCHAR(50) NOT NULL,
+    Contraseña BINARY(60) NOT NULL, -- Almacenar el hash de la contraseña en formato binario
+    Email VARCHAR(50) NOT NULL UNIQUE,
     Rol ENUM('cliente', 'veterinario', 'administrador') NOT NULL
 );
 
@@ -16,7 +16,7 @@ CREATE TABLE Administrador (
     N_Pila VARCHAR(50),
     Apellido VARCHAR(50),
     Telefono VARCHAR(20),
-    Email VARCHAR(50),
+    Email VARCHAR(50) NOT NULL UNIQUE,
     FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
 );
 
