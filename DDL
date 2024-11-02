@@ -1,4 +1,4 @@
-DDL de la base de datos de la veterinaria (DICCIONARIO DE DATOS)
+--DDL de la base de datos de la veterinaria (DICCIONARIO DE DATOS)
 
 -- Tabla Usuario
 CREATE TABLE Usuario (
