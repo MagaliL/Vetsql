@@ -1,0 +1,241 @@
+DDL de la base de datos de la veterinaria (DICCIONARIO DE DATOS)
+
+-- Tabla Usuario
+CREATE TABLE Usuario (
+    Usuario_ID NUMBER PRIMARY KEY,
+    Nombre_Usuario VARCHAR2(50) NOT NULL,
+    Contraseña VARCHAR2(50) NOT NULL,
+    Email VARCHAR2(100) NOT NULL,
+    Rol VARCHAR2(50) NOT NULL
+);
+
+-- Tabla Administrador
+CREATE TABLE Administrador (
+    ID_Administrador NUMBER PRIMARY KEY,
+    Usuario_ID NUMBER NOT NULL,
+    N_Pila VARCHAR2(50),
+    Apellido VARCHAR2(50),
+    Telefono VARCHAR2(20),
+    Email VARCHAR2(100),
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
+);
+
+-- Tabla Veterinario
+CREATE TABLE Veterinario (
+    ID_Veterinario NUMBER PRIMARY KEY,
+    Usuario_ID NUMBER NOT NULL,
+    N_Pila VARCHAR2(50),
+    Apellido VARCHAR2(50),
+    Especialidad VARCHAR2(100),
+    Horario VARCHAR2(100),
+    Telefono VARCHAR2(20),
+    Email VARCHAR2(100),
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
+);
+
+-- Tabla Dueño
+CREATE TABLE Dueño (
+    ID_Dueño NUMBER PRIMARY KEY,
+    Usuario_ID NUMBER NOT NULL,
+    N_Pila VARCHAR2(50),
+    Apellido VARCHAR2(50),
+    Telefono VARCHAR2(20),
+    Email VARCHAR2(100),
+    Direccion VARCHAR2(100),
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
+);
+
+-- Tabla Paciente
+CREATE TABLE Paciente (
+    ID_Paciente NUMBER PRIMARY KEY,
+    ID_Dueño NUMBER NOT NULL,
+    Nombre VARCHAR2(50),
+    Especie VARCHAR2(50),
+    Raza VARCHAR2(50),
+    Edad NUMBER,
+    Sexo CHAR(1),
+    Peso NUMBER,
+    Diagnostico VARCHAR2(200),
+    FOREIGN KEY (ID_Dueño) REFERENCES Dueño(ID_Dueño)
+);
+
+-- Tabla Cita
+CREATE TABLE Cita (
+    ID_Cita NUMBER PRIMARY KEY,
+    ID_Veterinario NUMBER NOT NULL,
+    ID_Paciente NUMBER NOT NULL,
+    ID_Dueño NUMBER NOT NULL,
+    Seguimiento VARCHAR2(200),
+    Costo NUMBER,
+    Fecha DATE,
+    Diagnostico VARCHAR2(200),
+    FOREIGN KEY (ID_Veterinario) REFERENCES Veterinario(ID_Veterinario),
+    FOREIGN KEY (ID_Paciente) REFERENCES Paciente(ID_Paciente),
+    FOREIGN KEY (ID_Dueño) REFERENCES Dueño(ID_Dueño)
+);
+
+-- Tabla Detalles
+CREATE TABLE Detalles (
+    ID_Cita NUMBER NOT NULL,
+    ID_Veterinario NUMBER NOT NULL,
+    Motivo VARCHAR2(200),
+    Tratamiento VARCHAR2(200),
+    Calificacion NUMBER,
+    PRIMARY KEY (ID_Cita, ID_Veterinario),
+    FOREIGN KEY (ID_Cita) REFERENCES Cita(ID_Cita),
+    FOREIGN KEY (ID_Veterinario) REFERENCES Veterinario(ID_Veterinario)
+);
+
+-- Tabla Producto
+CREATE TABLE Producto (
+    ID_Item NUMBER PRIMARY KEY,
+    Nombre VARCHAR2(50),
+    Cantidad NUMBER,
+    Existencia NUMBER,
+    ID_Administrador NUMBER NOT NULL,
+    FOREIGN KEY (ID_Administrador) REFERENCES Administrador(ID_Administrador)
+);
+
+-- Tabla Factura
+CREATE TABLE Factura (
+    ID_Factura NUMBER PRIMARY KEY,
+    ID_Item NUMBER,
+    ID_Cita NUMBER,
+    ID_Dueño NUMBER NOT NULL,
+    Total NUMBER,
+    Fecha DATE,
+    Descripcion VARCHAR2(200),
+    FOREIGN KEY (ID_Item) REFERENCES Producto(ID_Item),
+    FOREIGN KEY (ID_Cita) REFERENCES Cita(ID_Cita),
+    FOREIGN KEY (ID_Dueño) REFERENCES Dueño(ID_Dueño)
+);
+
+
+DDL de la base de datos de la veterinaria (BASANDOSE EN LA IMAGEN DEL DIAGRAMA)
+
+-- Tabla Usuario
+CREATE TABLE Usuario (
+    Usuario_ID NUMBER PRIMARY KEY,
+    Rol VARCHAR2(50),
+    Contraseña VARCHAR2(50),
+    Nombre_Usuario VARCHAR2(50),
+    Email VARCHAR2(100)
+);
+
+-- Tabla Administrador
+CREATE TABLE Administrador (
+    ID_Administrador NUMBER PRIMARY KEY,
+    Usuario_ID NUMBER,
+    N_Pila VARCHAR2(50),
+    Apellido VARCHAR2(50),
+    Telefono VARCHAR2(20),
+    Email VARCHAR2(100),
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
+);
+
+-- Tabla Veterinario
+CREATE TABLE Veterinario (
+    ID_Veterinario NUMBER PRIMARY KEY,
+    Usuario_ID NUMBER,
+    N_Pila VARCHAR2(50),
+    Apellido VARCHAR2(50),
+    Especialidad VARCHAR2(100),
+    Horario VARCHAR2(100),
+    Telefono VARCHAR2(20),
+    Email VARCHAR2(100),
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
+);
+
+-- Tabla Dueño
+CREATE TABLE Dueño (
+    ID_Dueño NUMBER PRIMARY KEY,
+    Usuario_ID NUMBER,
+    N_Pila VARCHAR2(50),
+    Apellido VARCHAR2(50),
+    Telefono VARCHAR2(20),
+    Email VARCHAR2(100),
+    Dirección VARCHAR2(100),
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
+);
+
+-- Tabla Paciente
+CREATE TABLE Paciente (
+    ID_Paciente NUMBER PRIMARY KEY,
+    ID_Dueño NUMBER,
+    Usuario_ID NUMBER,
+    Nombre VARCHAR2(50),
+    Especie VARCHAR2(50),
+    Raza VARCHAR2(50),
+    Edad NUMBER,
+    Sexo CHAR(1),
+    Peso NUMBER,
+    Diagnostico VARCHAR2(200),
+    FOREIGN KEY (ID_Dueño) REFERENCES Dueño(ID_Dueño),
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
+);
+
+-- Tabla Cita
+CREATE TABLE Cita (
+    ID_Cita NUMBER PRIMARY KEY,
+    ID_Veterinario NUMBER,
+    ID_Paciente NUMBER,
+    ID_Dueño NUMBER,
+    Usuario_ID NUMBER,
+    Seguimiento VARCHAR2(200),
+    Costo NUMBER,
+    Fecha DATE,
+    Diagnostico VARCHAR2(200),
+    ID_Administrador NUMBER,
+    FOREIGN KEY (ID_Veterinario) REFERENCES Veterinario(ID_Veterinario),
+    FOREIGN KEY (ID_Paciente) REFERENCES Paciente(ID_Paciente),
+    FOREIGN KEY (ID_Dueño) REFERENCES Dueño(ID_Dueño),
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID),
+    FOREIGN KEY (ID_Administrador) REFERENCES Administrador(ID_Administrador)
+);
+
+-- Tabla Detalles
+CREATE TABLE Detalles (
+    Motivo VARCHAR2(200),
+    Tratamiento VARCHAR2(200),
+    Calificacion NUMBER,
+    ID_Cita NUMBER,
+    ID_Veterinario NUMBER,
+    FOREIGN KEY (ID_Cita) REFERENCES Cita(ID_Cita),
+    FOREIGN KEY (ID_Veterinario) REFERENCES Veterinario(ID_Veterinario)
+);
+
+-- Tabla Producto
+CREATE TABLE Producto (
+    ID_Item NUMBER PRIMARY KEY,
+    Nombre VARCHAR2(50),
+    Cantidad NUMBER,
+    Existencia NUMBER,
+    ID_Administrador NUMBER,
+    Usuario_ID NUMBER,
+    FOREIGN KEY (ID_Administrador) REFERENCES Administrador(ID_Administrador),
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
+);
+
+-- Tabla Factura
+CREATE TABLE Factura (
+    ID_Factura NUMBER PRIMARY KEY,
+    ID_Item NUMBER,
+    Usuario_ID NUMBER,
+    Total NUMBER,
+    ID_Administrador NUMBER,
+    Fecha DATE,
+    Descripcion VARCHAR2(200),
+    ID_Dueño NUMBER,
+    ID_Cita NUMBER,
+    ID_Veterinario NUMBER,
+    ID_Paciente NUMBER,
+    FOREIGN KEY (ID_Item) REFERENCES Producto(ID_Item),
+    FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID),
+    FOREIGN KEY (ID_Administrador) REFERENCES Administrador(ID_Administrador),
+    FOREIGN KEY (ID_Dueño) REFERENCES Dueño(ID_Dueño),
+    FOREIGN KEY (ID_Cita) REFERENCES Cita(ID_Cita),
+    FOREIGN KEY (ID_Veterinario) REFERENCES Veterinario(ID_Veterinario),
+    FOREIGN KEY (ID_Paciente) REFERENCES Paciente(ID_Paciente)
+);
+
+
