@@ -2,12 +2,13 @@
 
 -- Tabla Usuario
 CREATE TABLE Usuario (
-    Usuario_ID NUMBER PRIMARY KEY,
+    Usuario_ID INT PRIMARY KEY,
     Rol VARCHAR(50) CHECK (Rol IN ('cliente', 'veterinario', 'administrador')), -- Restringe los roles permitidos
-    Contraseña VARCHAR(255) NOT NULL,-- Aumentado para almacenar un hash de contraseña
+    Contrasena VARCHAR(255) NOT NULL,    -- Aumentado para almacenar un hash de contraseÃ±a
     Email VARCHAR(100) NOT NULL UNIQUE,
-    Nombre_Usuario VARCHAR(50) NOT NULL UNIQUE  -- Asegura que el nombre de usuario sea único
+    Nombre_Usuario VARCHAR(50) NOT NULL UNIQUE  -- Asegura que el nombre de usuario sea Ãºnico
 );
+
 
 -- Crear la tabla Administrador
 CREATE TABLE Administrador (
@@ -15,7 +16,7 @@ CREATE TABLE Administrador (
     Usuario_ID NUMBER NOT NULL,
     Nombre_Pila VARCHAR(50),              -- Cambiado de N_Pila a Nombre_Pila
     Apellido VARCHAR(50),
-    Telefono VARCHAR(15),                 -- Ajustado a 15 para números telefónicos internacionales
+    Telefono VARCHAR(15),                 -- Ajustado a 15 para nÃºmeros telefÃ³nicos internacionales
     Email VARCHAR(100) NOT NULL UNIQUE,   -- Ajustado a 100 para direcciones de correo largas
     FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
 );
@@ -29,36 +30,36 @@ CREATE TABLE Veterinario (
     Especialidad VARCHAR(50),
     Horario_Inicio TIMESTAMP,        
     Horario_Fin TIMESTAMP,           
-    Telefono VARCHAR(15),                 -- Ajustado para números telefónicos
-    Email VARCHAR(100),                   -- Ajustado para emails más largos
+    Telefono VARCHAR(15),                 -- Ajustado para nÃºmeros telefÃ³nicos
+    Email VARCHAR(100),                   -- Ajustado para emails mÃ¡s largos
     FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
 );
 
--- Crear la tabla Dueño
-CREATE TABLE Dueño (
-    ID_Dueño NUMBER PRIMARY KEY,
+-- Crear la tabla Dueno
+CREATE TABLE Dueno (
+    ID_Dueno NUMBER PRIMARY KEY,
     Usuario_ID NUMBER NOT NULL,
     Nombre_Pila VARCHAR(50),             -- Cambiado de N_Pila a Nombre_Pila
     Apellido VARCHAR(50),
-    Telefono VARCHAR(15),                -- Ajustado para números telefónicos internacionales
+    Telefono VARCHAR(15),                -- Ajustado para nÃºmeros telefÃ³nicos internacionales
     Email VARCHAR(100) UNIQUE,           -- Ajustado para emails largos y definido como UNIQUE
-    Direccion VARCHAR(250),              -- Manteniendo 250 para la dirección completa
+    Direccion VARCHAR(250),              -- Manteniendo 250 para la direcciÃ³n completa
     FOREIGN KEY (Usuario_ID) REFERENCES Usuario(Usuario_ID)
 );
 
 -- Crear la tabla Paciente
 CREATE TABLE Paciente (
     ID_Paciente NUMBER PRIMARY KEY,
-    ID_Dueño NUMBER NOT NULL,
+    ID_Dueno NUMBER NOT NULL,
     Nombre VARCHAR(50),
     Especie VARCHAR(50),
-    Raza VARCHAR(30),                    -- Aumentado a 30 para razas más largas
-    Edad_Num NUMBER,                      -- Dividido en número
-    Unidad_Tiempo VARCHAR(10),           -- Y unidad de tiempo para claridad (e.g., años, meses)
+    Raza VARCHAR(30),                    -- Aumentado a 30 para razas mÃ¡s largas
+    Edad_Num NUMBER,                      -- Dividido en nÃºmero
+    Unidad_Tiempo VARCHAR(10),           -- Y unidad de tiempo para claridad (e.g., aÃ±os, meses)
     Sexo CHAR(1) CHECK (Sexo IN ('M', 'F')),  -- Usando CHAR(1) para M/F
     Peso NUMBER(5,2),                     -- Para pesos con decimales
     Diagnostico VARCHAR(200),
-    FOREIGN KEY (ID_Dueño) REFERENCES Dueño(ID_Dueño)
+    FOREIGN KEY (ID_Dueno) REFERENCES Dueno(ID_Dueno)
 );
 
 -- Tabla Cita
@@ -66,18 +67,20 @@ CREATE TABLE Cita (
     ID_Cita NUMBER PRIMARY KEY,              -- Usando NUMBER en lugar de INT
     ID_Veterinario NUMBER NOT NULL,
     ID_Paciente NUMBER NOT NULL,
-    ID_Dueño NUMBER NOT NULL,
+    ID_Dueno NUMBER NOT NULL,
     Seguimiento VARCHAR(200),
-    Costo NUMBER(8,2),                       -- Definición de precisión para valores monetarios
-    Fecha TIMESTAMP NOT NULL,              -- Fecha y hora específicos de la cita
+    Costo NUMBER(8,2),                       -- DefiniciÃ³n de precisiÃ³n para valores monetarios
+    Fecha TIMESTAMP NOT NULL,              -- Fecha y hora especÃ­ficos de la cita
     Diagnostico VARCHAR(200),
     FOREIGN KEY (ID_Veterinario) REFERENCES Veterinario(ID_Veterinario),
     FOREIGN KEY (ID_Paciente) REFERENCES Paciente(ID_Paciente),
-    FOREIGN KEY (ID_Dueño) REFERENCES Dueño(ID_Dueño)
+    FOREIGN KEY (ID_Dueno) REFERENCES Dueno(ID_Dueno)
 );
 
+
+
 -- Tabla Detalles
-CREATE TABLE Detalles (
+CREATE TABLE Detalle (
     ID_Cita NUMBER NOT NULL,
     ID_Veterinario NUMBER NOT NULL,
     Motivo VARCHAR(200),
@@ -91,9 +94,9 @@ CREATE TABLE Detalles (
 -- Tabla Producto
 CREATE TABLE Producto (
     ID_Item NUMBER PRIMARY KEY,
-    Nombre VARCHAR(50) NOT NULL,                   -- Añadido NOT NULL para asegurar un nombre
-    Cantidad NUMBER CHECK (Cantidad >= 0),          -- Restricción para permitir solo valores no negativos
-    Existencia NUMBER CHECK (Existencia >= 0),      -- Restricción para evitar valores negativos en existencia
+    Nombre VARCHAR(50) NOT NULL,                   -- AÃ±adido NOT NULL para asegurar un nombre
+    Cantidad NUMBER CHECK (Cantidad >= 0),          -- RestricciÃ³n para permitir solo valores no negativos
+    Existencia NUMBER CHECK (Existencia >= 0),      -- RestricciÃ³n para evitar valores negativos en existencia
     ID_Administrador NUMBER NOT NULL,
     FOREIGN KEY (ID_Administrador) REFERENCES Administrador(ID_Administrador)
 );
@@ -103,11 +106,11 @@ CREATE TABLE Factura (
     ID_Factura NUMBER PRIMARY KEY,
     ID_Item NUMBER,                             -- Puede ser NULL si la factura no siempre requiere un producto
     ID_Cita NUMBER,                             -- Puede ser NULL si la factura no siempre requiere una cita
-    ID_Dueño NUMBER NOT NULL,
-    Total NUMBER(10,2) NOT NULL,                -- Definido con precisión para valores monetarios
+    ID_Dueno NUMBER NOT NULL,
+    Total NUMBER(10,2) NOT NULL,                -- Definido con precisiÃ³n para valores monetarios
     Fecha DATE NOT NULL,                        -- Asegura que siempre se registre la fecha de la factura
     Descripcion VARCHAR(200),
     FOREIGN KEY (ID_Item) REFERENCES Producto(ID_Item),
     FOREIGN KEY (ID_Cita) REFERENCES Cita(ID_Cita),
-    FOREIGN KEY (ID_Dueño) REFERENCES Dueño(ID_Dueño)
+    FOREIGN KEY (ID_Dueno) REFERENCES Dueno(ID_Dueno)
 );
