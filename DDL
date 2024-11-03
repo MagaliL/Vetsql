@@ -4,7 +4,8 @@
 CREATE TABLE Usuario (
     Usuario_ID NUMBER PRIMARY KEY,
     Rol VARCHAR2(50) CHECK (Rol IN ('cliente', 'veterinario', 'administrador')), -- Restringe los roles permitidos
-    Contraseña VARCHAR2(255) NOT NULL,    -- Aumentado para almacenar un hash de contraseña
+    Contraseña VARCHAR2(255) NOT NULL,-- Aumentado para almacenar un hash de contraseña
+    Email VARCHAR2(100) NOT NULL UNIQUE,
     Nombre_Usuario VARCHAR2(50) NOT NULL UNIQUE  -- Asegura que el nombre de usuario sea único
 );
 
