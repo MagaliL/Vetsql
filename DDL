@@ -114,3 +114,14 @@ CREATE TABLE Factura (
     FOREIGN KEY (ID_Cita) REFERENCES Cita(ID_Cita),
     FOREIGN KEY (ID_Dueno) REFERENCES Dueno(ID_Dueno)
 );
+
+--Tabla Valoracion
+CREATE TABLE Vaaloracion (
+    ID_Valoracion NUMBER PRIMARY KEY,
+    ID_Cita NUMBER NOT NULL,
+    ID_Veterinario NUMBER NOT NULL, 
+    Calificacion NUMBER(2,1) CHECK (Calificacion BETWEEN 1and 5),
+    Comentario VARCHAR(255),
+    FOREIGN KEY (ID_Cita, ID_Veterinario) REFERENCES Detalles(ID_Cita, ID_Veterinario)
+);
+
