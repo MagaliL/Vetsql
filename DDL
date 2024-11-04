@@ -116,7 +116,7 @@ CREATE TABLE Factura (
 );
 
 --Tabla Valoracion
-CREATE TABLE Vaaloracion (
+CREATE TABLE Valoracion (
     ID_Valoracion NUMBER PRIMARY KEY,
     ID_Cita NUMBER NOT NULL,
     ID_Veterinario NUMBER NOT NULL, 
