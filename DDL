@@ -125,9 +125,9 @@ CREATE TABLE Vaaloracion (
     FOREIGN KEY (ID_Cita, ID_Veterinario) REFERENCES Detalles(ID_Cita, ID_Veterinario)
 );
 
----------------------------------------------
-Tablas que ocupe para la creacion de usuarios
----------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------
+						Tablas que ocupe para la creacion de usuarios
+---------------------------------------------------------------------------------------------------------------------------------------
 
   CREATE TABLE "MTL_CITY" 
    (	"ID" NUMBER, 
