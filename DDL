@@ -1,4 +1,30 @@
---DDL de la base de datos de la veterinaria (DICCIONARIO DE DATOS)
+--DLL de la base de datos de la veterinaria para APEX
+
+--CITA
+
+CREATE TABLE "CITA" 
+   (	"ID_CITA" NUMBER, 
+	"ID_VETERINARIO" NUMBER NOT NULL ENABLE, 
+	"ID_PACIENTE" NUMBER NOT NULL ENABLE, 
+	"ID_DUEÑO" NUMBER NOT NULL ENABLE, 
+	"COSTO" NUMBER(8,2), 
+	"FECHA" TIMESTAMP (6) NOT NULL ENABLE, 
+	"DETALLES" VARCHAR2(200), 
+	"DIAGNOSTICO" VARCHAR2(200), 
+	"SEGUIMIENTO" VARCHAR2(100), 
+	 PRIMARY KEY ("ID_CITA")
+  USING INDEX  ENABLE
+   ) ;
+
+
+
+
+
+
+
+
+
+--DDL de la base de datos de la veterinaria 
 
 -- Tabla Usuario
 CREATE TABLE Usuario (
